@@ -9,7 +9,6 @@ from parseData import Nse
 
 nse = Nse()
 allQuotes = nse.all_codes()
-# print(nse.all_codes())
 storedScrip = []
 
 
