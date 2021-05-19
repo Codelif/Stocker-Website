@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Portfolio Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <script>
+        // var stockGET = {{ stocks|tojson }};
+        var allQuotes = {{ quotes|tojson }};
+    </script>
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ...">
+                                <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                            </div>
+                        </form>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4">Portfolio</h3>
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 font-weight-bold">Portfolio Info</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="text-md-left dataTables_filter" id="dataTable_filter">
+                                        <label>
+                                            <form class="d-flex" action="/addScrip" method="post">
+                                                <select name="addValue" id="scripSel" style="flex: 1; margin-right: 20px;" class="form-control form-control-sm">Choose Scrip</select>
+                                                <button class="btn btn-primary" type="submit">Add Scrip</button>
+                                            </form>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Company Full Name</th>
+                                            <th>Stock Quote</th>
+                                            <th>Stock Price</th>
+                                            <th>Stock Open</th>
+                                            <th>Stock Close</th>
+                                            {% if stocks|length > 0 %}
+                                            <th>Remove</th>
+                                            {% endif %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        {%for stock in stocks%}
+                                        <tr>
+                                            {% if stock["company"]|length <= 28 %}
+                                                <td>{{stock["company"]}}</td>
+                                            {% else %}
+                                                <td>{{stock["company"][:25] + "..." }}</td>
+                                            {% endif %}
+                                            <td>{{stock["quote"]}}</td>
+                                            <td>{{stock["price"]}}</td>
+                                            <td>{{stock["open"]}}</td>
+                                            <td>{{stock["close"]}}</td>
+                                            <form action="/removeScrip" method="post">
+                                            <td><button name="remValue" value="{{ loop.index - 1}}" class="btn btn-secondary" type="submit">Remove</button></td>
+                                            </form>
+                                        </tr>
+                                        {%endfor%}
+                                        
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © Codelif 2021</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="{{ url_for('static', filename='assets/js/index.js') }}"></script>
+</body>
+
+</html>
