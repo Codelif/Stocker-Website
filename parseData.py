@@ -1,10 +1,8 @@
-
-from os import close
 from pprint import pprint
 from datetime import date, datetime
 from pandas import read_csv, Series
 from requests import Session
-from json import dumps, loads
+from json import dumps
 from math import floor
 
 
@@ -45,7 +43,9 @@ class Nse():
         return ret
     
     def historical_data(self, code="", date_from=(2020, 1, 1), date_to=(2021, 1, 1), give_json=False):
+
         url = 'https://query1.finance.yahoo.com/v7/finance/download/{}.NS?period1={}&period2={}&interval=1d&events=history&includeAdjustedClose=true'.format(code.upper(), conv_ctime(date_from), conv_ctime(date_to))
+        
         df = read_csv(url).to_dict("list")
         # df.reverse()
         df.pop("Adj Close")
@@ -78,22 +78,4 @@ class Nse():
         return r["priceInfo"]["lastPrice"]
 
 
-       
-        # # pprint(r)
-        # jsonin = loads(r)
-        # print(jsonin)
-        
-
-        # url = "https://in.finance.yahoo.com/quote/{}.NS".format(code.upper())
-        # r = get(url)
-        # soup = BeautifulSoup(r.content, "html5lib")
-        # soup = soup.select("#quote-header-info > div.My\(6px\).Pos\(r\).smartphone_Mt\(6px\) > div.D\(ib\).Va\(m\).Maw\(65\%\).Ov\(h\) > div > span.Trsdu\(0\.3s\).Fw\(b\).Fz\(36px\).Mb\(-4px\).D\(ib\)")
-        # return (soup[0].text.replace(",", ""))
-
-
-nse = Nse()
-
-nse.live_quote("EXCELINDUS")
-
-# nse.historical_data("reliance", (2021, 1, 27), (2021, 2, 1))
 
