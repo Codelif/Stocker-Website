@@ -14,6 +14,10 @@ storedScrip = []
 def dashboard():
     return render_template("index.html")
 
+@app.route("/searchQuote/")
+def searchQuote():
+    return render_template("searchQuote.html")
+
 @app.route("/404")
 def error():
     return render_template("404.html")

@@ -34,7 +34,6 @@ def remScrip():
         user = request.form["remValue"]
         print(user)
         storedScrip.pop(int(user))
-        # storedScrip.append(formatAddScrip(int(user)))
         return redirect(url_for("index"))
 
 

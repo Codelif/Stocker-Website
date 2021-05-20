@@ -1,15 +1,10 @@
-
-
-console.log(allQuotes["ATGL"]);
-
-// stockCodes = (json);
 var select = $("#scripSel");
-var ids = 0
+var IDs = 0
 
 for (let item in allQuotes){
     var opt = document.createElement('option');
-    opt.value = ids;
-    ids++;
+    opt.value = IDs;
+    IDs++;
     opt.text = item + " -- " + allQuotes[item]
     select.append(opt);
 }
