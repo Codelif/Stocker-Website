@@ -1,4 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect
+import loginlib
+
 
 app = Flask(__name__)
 
@@ -22,9 +24,20 @@ def searchQuote():
 def error():
     return render_template("404.html")
 
-@app.route("/login")
-def login():
-    return render_template("login.html")
+@app.route("/login", methods=["POST", "GET"])
+def login(loginStatus=[]):
+    if request.method == "POST":
+        
+        email = request.form["email"]
+        password = request.form["password"]
+        # print(email, password)
+        loginis = loginlib.isloginOK(email, password)
+        if loginis[0]:
+            return redirect(url_for("dashboard"))
+        else:
+            return redirect(url_for("login", loginStatus=loginis[1]))
+    else:
+        return render_template("login.html", loginStatus=loginStatus)
 
 @app.route("/register")
 def register():
